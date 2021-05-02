@@ -1,60 +1,55 @@
 const gameChoiceOptions = ['Rock', 'Paper', 'Scissors'];
+const playerChoicesBtns = document.querySelectorAll('.playerChoice');
+playerChoicesBtns.forEach(btn => btn.addEventListener('click',playGameRound));
+const scoreBoard = document.querySelector('#gameResults');
 
+var gameResult;
+var roundCount = 1;
+// var playerScore = 0;
+// var computerScore = 0;
 
-function computerPlay(){
-    return gameChoiceOptions[Math.floor(Math.random() * gameChoiceOptions.length)]
-}
-
-function playGameRound(cpuSelection, playerSelection = 'invalid choice') {
-    playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1)
-    console.log("You chose: " + playerSelection);
-    console.log("Computer chose: " + cpuSelection);
+function playGameRound() {
+    var cpuSelection = gameChoiceOptions[Math.floor(Math.random() * gameChoiceOptions.length)];
+    playerSelection = this.value;
 
     if (gameChoiceOptions.includes(playerSelection) == false) {
-        return "invalid choice";
+        gameResult = "invalid choice";
     } else if (cpuSelection === playerSelection){
-        return "draw";
+        gameResult = "Draw";
     } else if (cpuSelection === 'Rock'){
-        return playerSelection === 'Paper' ? "player wins" : "cpu wins";
+        gameResult = playerSelection === 'Paper' ? "You win" : "Computer wins";
     } else if (cpuSelection === 'Paper'){
-        return playerSelection === 'Scissors' ? "player wins" : "cpu wins";
+        gameResult =  playerSelection === 'Scissors' ? "You win" : "Computer wins";
     }else if (cpuSelection === 'Scissors'){
-        return playerSelection === 'Rock' ? "player wins" : "cpu wins";
+        gameResult = playerSelection === 'Rock' ? "You win" : "Computer wins";
     }
 
+    console.log("Round " + roundCount)
+    console.log("You chose: " + playerSelection);
+    console.log("Computer chose: " + cpuSelection);
+    console.log(gameResult);
+
+    /*
+        * Snippet below can be used to orchestrate actions based on round count
+        * Since it is trivial, I am going to skip it for this project.
+    */
+    // if (gameResult === 'You Win') playerScore++
+    // else if (gameResult === 'Draw') {
+    //     computerScore++; 
+    //     playerScore++;
+    // }    
+    // else computerScore++;
+
+    roundCount++;
+    var html = `
+    <h3>Round: ${roundCount}</h3>
+    <h3>You Chose: ${playerSelection}</h3>
+    <h3>Computer Chose: ${cpuSelection}</h3>
+    <h3>${gameResult}!</h3>
+    `;
+
+    scoreBoard.innerHTML = html; 
 }
-
-function game(){
-    var computerChoice;
-    var playerChoice;
-    var gameResult;
-    var roundCount = 1;
-    var playerScore = 0;
-    var computerScore = 0;
-
-    for (let i = 0; i <= 4; i++){
-        console.log("Round " + roundCount)
-        computerChoice = computerPlay();
-        playerChoice = window.prompt("Enter your choice:");
-
-        gameResult = playGameRound(computerChoice, playerChoice);
-        console.log(gameResult);
-        if (gameResult === 'player wins') playerScore++
-        else if (gameResult === 'draw') {
-            computerScore++; 
-            playerScore++;
-        }    
-        else computerScore++;
-
-        roundCount++;
-    }  
-    
-    console.log("Final Score: ");
-    console.log("You: " + playerScore);
-    console.log("Computer: " + computerScore);
-    
-}
-
 
 
 
